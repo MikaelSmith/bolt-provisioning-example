@@ -19,7 +19,7 @@ plan example::connect(String $admin_password) {
     )
   }
 
-  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].each |$_idx| {
+  10.each |$_idx| {
     $result = run_command('hostname', $targets, _catch_errors => true)
     if $result.ok {
       return $result
