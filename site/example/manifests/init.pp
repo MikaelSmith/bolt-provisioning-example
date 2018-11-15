@@ -2,7 +2,7 @@ class example (
   String $subscription_id = azure_subscription_id(),
   String $project_name    = 'azblogpost',
   String $location        = 'westus2',
-  String $admin_user      = 'testAdmin',
+  String $admin_user,
   String $admin_password,
 ) {
 

@@ -19,10 +19,6 @@ plan example::connect(String $admin_password) {
     )
   }
 
-  10.each |$_idx| {
-    $result = run_command('hostname', $targets, _catch_errors => true)
-    if $result.ok {
-      return $result
-    }
-  }
+  wait_until_available($targets)
+  return run_command('hostname', $targets)
 }

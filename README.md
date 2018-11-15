@@ -38,15 +38,18 @@ bolt puppetfile install
 ```
 
 ## Create some VMs
+
+Note: this plan requires Bolt 1.3+
+
 Run the plan
 ```
-bolt plan run example admin_password=<make-a-password>
+bolt plan run example admin_user=testAdmin admin_password=<make-a-password>
 ```
 
-Get IP addresses and test with Bolt
+Note: you can pass arguments via a file to prevent them appearing in your shell history.
+
+The plan will wait until machines are provisioned and print their hostnames. You can also get their IP addresses and run more commands directly with Bolt
 ```
 ipaddresses=$(az vm list-ip-addresses | jq -r '.[].virtualMachine.network.publicIpAddresses[].ipAddress')
 bolt command run hostname -n $ipaddresses --transport winrm --user testAdmin --no-ssl --password
 ```
-
-Note that VMs may not initially respond. Give them up to a minute to be ready and try again.
