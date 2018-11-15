@@ -9,5 +9,5 @@ plan example(TargetSpec $proxy = 'local://', String $admin_user, String $admin_p
     }
   }
 
-  return run_plan('example::connect', admin_password => $admin_password)
+  return run_plan('example::connect', admin_user => $admin_user, admin_password => $admin_password)
 }

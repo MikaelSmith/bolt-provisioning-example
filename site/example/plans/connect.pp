@@ -1,6 +1,5 @@
-plan example::connect(String $admin_password) {
+plan example::connect(String $admin_user, String $admin_password) {
   # TODO: get from apply somehow
-  $admin_user = 'testAdmin'
   $vm_names = ['azblogpostvm1', 'azblogpostvm2']
 
   # TODO: Resource queries should also act through the proxy, so they need to be tasks
