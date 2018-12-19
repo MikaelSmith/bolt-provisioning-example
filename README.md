@@ -28,6 +28,8 @@ Install the [azure_arm](https://forge.puppet.com/puppetlabs/azure_arm) module wi
 bolt puppetfile install
 ```
 
+Puppet Agent must be installed on the host you use to run Bolt.
+
 ## Create some VMs
 
 Note: this plan requires Bolt 1.7+

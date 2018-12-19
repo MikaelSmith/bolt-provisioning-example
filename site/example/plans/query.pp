@@ -1,11 +1,6 @@
 plan example::query(
-  String $type,
-  Optional[String] $name=undef
+  TargetSpec $proxy = 'local://',
+  String $type_ref,
 ) {
-  if $name {
-    return query_resource($type, $name)
-  }
-  else {
-    return query_resource($type)
-  }
+  return get_resources($proxy, $type_ref)
 }
