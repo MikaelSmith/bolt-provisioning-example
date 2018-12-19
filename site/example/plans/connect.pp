@@ -1,19 +1,24 @@
-plan example::connect(String $admin_user, String $admin_password) {
+plan example::connect(TargetSpec $proxy = 'local://', String $admin_user, String $admin_password) {
   # TODO: get from apply somehow
   $vm_names = ['azblogpostvm1', 'azblogpostvm2']
 
-  # TODO: Resource queries should also act through the proxy, so they need to be tasks
-  $vms = $vm_names.map |$name| { query_resource('azure_virtual_machine', $name) }
-  $nic_names = $vms.map |$vm| { $vm['properties']['networkProfile']['networkInterfaces'][0]['id'].split('/')[-1] }
+  $vm_refs = $vm_names.map |$name| { "azure_virtual_machine[${name}]" }
+  $vms = get_resources($proxy, $vm_refs).first['resources']
+  if $vms[0]['parameters']['ensure'] == 'absent' {
+      fail_plan("VMs ${vm_names} do not exist")
+  }
+  $nic_names = $vms.map |$vm| { $vm['parameters']['properties']['networkProfile']['networkInterfaces'][0]['id'].split('/')[-1] }
 
-  $nics = $nic_names.map |$name| { query_resource('azure_network_interface', $name) }
-  $ip_names = $nics.map |$nic| { $nic['properties']['ipConfigurations'][0]['properties']['publicIPAddress']['id'].split('/')[-1] }
+  $nic_refs = $nic_names.map |$name| { "azure_network_interface[${name}]" }
+  $nics = get_resources($proxy, $nic_refs).first['resources']
+  $ip_names = $nics.map |$nic| { $nic['parameters']['properties']['ipConfigurations'][0]['properties']['publicIPAddress']['id'].split('/')[-1] }
 
-  $ips = $ip_names.map |$ip| { query_resource('azure_public_ip_address', $ip) }
+  $ip_refs = $ip_names.map |$name| { "azure_public_ip_address[${name}]" }
+  $ips = get_resources($proxy, $ip_refs).first['resources']
 
   $targets = $ips.map |$ip| {
     Target.new(
-      "winrm://${admin_user}:${admin_password}@${$ip['properties']['ipAddress']}",
+      "winrm://${admin_user}:${admin_password}@${$ip['parameters']['properties']['ipAddress']}",
       ssl => false
     )
   }

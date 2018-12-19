@@ -23,23 +23,16 @@ export azure_client_id="http://${azure_client_name}"
 ```
 
 ## Install Dependencies
-Install the [facets](https://rubygems.org/gems/facets) gem with
-```
-/opt/puppetlabs/bolt/bin/gem install facets
-```
-or
-```
-"C:/Program Files/Puppet Labs/Bolt/bin/gem.bat" install facets
-```
-
 Install the [azure_arm](https://forge.puppet.com/puppetlabs/azure_arm) module with
 ```
 bolt puppetfile install
 ```
 
+Puppet Agent must be installed on the host you use to run Bolt.
+
 ## Create some VMs
 
-Note: this plan requires Bolt 1.3+
+Note: this plan requires Bolt 1.7+
 
 Run the plan
 ```
