@@ -1,5 +1,5 @@
 class example (
-  String $subscription_id = azure_subscription_id(),
+  String $subscription_id = example::azure_subscription_id(),
   String $project_name    = 'azblogpost',
   String $location        = 'westus2',
   String $admin_user,
